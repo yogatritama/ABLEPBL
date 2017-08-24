@@ -27,3 +27,6 @@ Route::group(['namespace' => 'Tutor', 'prefix' => 'tutor', 'as' => 'tutor.', 'mi
     Route::get('/create_question/{test}', 'TutorController@createQuestion')->name('test.question.create');
     Route::post('/create_question/{test}', 'TutorController@saveQuestion')->name('test.question.create');
 });
+Route::group(['namespace' => 'Mahasiswa', 'prefix' => 'mahasiswa', 'as' => 'mahasiswa.', 'middleware' => 'auth:mahasiswa'], function () {
+    Route::get('/', 'MahasiswaController@index')->name('index');
+});
