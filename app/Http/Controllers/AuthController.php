@@ -17,22 +17,22 @@ class AuthController extends Controller
             'password' => 'required|max:255|string'
         ]);
         if($validator->fails()) {
-            return redirect()->back()->withInput()->with('status', 'Unregistered');
+            return redirect()->route('index')->withInput()->with('status', 'Unregistered');
         }
         if(Mahasiswa::where('email', $request->email)->first() != null) {
             if (Auth::guard('mahasiswa')->attempt(['email' => $request->email, 'password' => $request->password])) {
                 return redirect()->route('index');
             } else {
-                return redirect()->back()->withInput()->with('status', 'Unauthorized');
+                return redirect()->route('index')->withInput()->with('status', 'Unauthorized');
             }
         } else if(Tutor::where('email', $request->email)->first() != null) {
             if (Auth::guard('tutor')->attempt(['email' => $request->email, 'password' => $request->password])) {
                 return redirect()->route('tutor.index');
             } else {
-                return redirect()->back()->withInput()->with('status', 'Unauthorized');
+                return redirect()->route('index')->withInput()->with('status', 'Unauthorized');
             }
         } else {
-            return redirect()->back()->withInput()->with('status', 'Unregistered');
+            return redirect()->route('index')->withInput()->with('status', 'Unregistered');
         }
     }
 
@@ -53,15 +53,15 @@ class AuthController extends Controller
             'institution' => 'nullable|max:255|string'
         ]);
         if($validator->fails()) {
-            return redirect()->back()->withInput()->with('status', 'Failed');
+            return redirect()->route('index')->withInput()->with('status', 'Failed');
         }
         $countEmail = Tutor::where('email', $request->email)->count();
         if($countEmail > 0) {
-            return redirect()->back()->withInput()->with('status', 'Failed');
+            return redirect()->route('index')->withInput()->with('status', 'Failed');
         }
         $countEmail = Mahasiswa::where('email', $request->email)->count();
         if($countEmail > 0) {
-            return redirect()->back()->withInput()->with('status', 'Failed');
+            return redirect()->route('index')->withInput()->with('status', 'Failed');
         }
         if($request->institution != null) {
             $user = Tutor::create([
@@ -84,7 +84,7 @@ class AuthController extends Controller
         if($user != null) {
             return redirect()->route('index')->with('status', 'Success');
         } else {
-            return redirect()->back()->withInput()->with('status', 'Failed');
+            return redirect()->route('index')->withInput()->with('status', 'Failed');
         }
     }
 
@@ -97,15 +97,15 @@ class AuthController extends Controller
             'tutor' => 'nullable|max:255|string'
         ]);
         if($validator->fails()) {
-            return redirect()->back()->withInput()->with('status', 'Failed');
+            return redirect()->route('index')->withInput()->with('status', 'Failed');
         }
         $countEmail = Tutor::where('email', $request->email)->count();
         if($countEmail > 0) {
-            return redirect()->back()->withInput()->with('status', 'Failed');
+            return redirect()->route('index')->withInput()->with('status', 'Failed');
         }
         $countEmail = Mahasiswa::where('email', $request->email)->count();
         if($countEmail > 0) {
-            return redirect()->back()->withInput()->with('status', 'Failed');
+            return redirect()->route('index')->withInput()->with('status', 'Failed');
         }
         if($request->institution != null && $request->tutor != null) {
             $user = Mahasiswa::create([
@@ -147,7 +147,7 @@ class AuthController extends Controller
         if($user != null) {
             return redirect()->route('index')->with('status', 'Success');
         } else {
-            return redirect()->back()->withInput()->with('status', 'Failed');
+            return redirect()->route('index')->withInput()->with('status', 'Failed');
         }
     }
 }

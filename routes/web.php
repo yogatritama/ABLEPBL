@@ -23,5 +23,7 @@ Route::post('/register_mahasiswa', 'AuthController@registerMahasiswa')->name('re
 Route::group(['namespace' => 'Tutor', 'prefix' => 'tutor', 'as' => 'tutor.', 'middleware' => 'auth:tutor'], function () {
     Route::get('/', 'TutorController@index')->name('index');
     Route::post('/create_test', 'TutorController@createTest')->name('test.create');
-    Route::get('/detail_test', 'TutorController@detailTest')->name('test.detail');
+    Route::get('/detail_test/{test}', 'TutorController@detailTest')->name('test.detail');
+    Route::get('/create_question/{test}', 'TutorController@createQuestion')->name('test.question.create');
+    Route::post('/create_question/{test}', 'TutorController@saveQuestion')->name('test.question.create');
 });
